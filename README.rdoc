@@ -1,3 +1,3 @@
 = better_timeentries
 
-Description goes here
+A Redmine plugin to display time entries for every user, in man hours.
