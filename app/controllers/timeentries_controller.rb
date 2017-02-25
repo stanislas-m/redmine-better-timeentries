@@ -1,16 +1,28 @@
 class TimeentriesController < ApplicationController
+  ##
+  # A controller for better time entries
+  #
   unloadable
+  before_filter :sanitize_page_params
 
 
   def index
-    working_hours_per_day = 8
   	@projects = Project.visible.sorted
     @users = User.active.sorted
 
     @now = Time.now
 
+    if params[:workingHoursPerWeek].present?
+      working_hours_per_day = params[:workingHoursPerWeek] / 5
+      @working_hours_per_week = params[:workingHoursPerWeek]
+    else
+      working_hours_per_day = 8
+      @working_hours_per_week = 40
+    end
+
     if params[:user].present?
       @user = User.where(:login => params[:user]).first
+      # Display a 404 error if the user is not found
       if @user == nil
         render_404
       end
@@ -37,7 +49,7 @@ class TimeentriesController < ApplicationController
   	@projects_entries = TimeEntry.group(:project_id).where(:user => @user, :spent_on => day_range).sum(sum_query)
   	@time_entries = TimeEntry.group("day(spent_on)", :project_id).where(:user => @user, :spent_on => day_range).sum(sum_query)
     @time_entries_full = TimeEntry.group("day(spent_on)", :project_id).where(:user => @user, :spent_on => day_range).sum("hours")
-  	@global_sum = TimeEntry.where(:user => @user, :spent_on => day_range).sum("hours / 8")
+  	@global_sum = TimeEntry.where(:user => @user, :spent_on => day_range).sum("hours / " + working_hours_per_day.to_s)
     @day_entries = TimeEntry.group("day(spent_on)").where(:user => @user, :spent_on => day_range).sum(sum_query)
 
     respond_to do |format|
@@ -54,5 +66,14 @@ class TimeentriesController < ApplicationController
 
   def imputations_to_csv()
 
+  end
+
+  def sanitize_page_params
+    if params[:workingHoursPerWeek].present?
+      params[:workingHoursPerWeek] = params[:workingHoursPerWeek].to_i
+      if params[:workingHoursPerWeek] <= 0
+        params[:workingHoursPerWeek] = 40
+      end
+    end
   end
 end
