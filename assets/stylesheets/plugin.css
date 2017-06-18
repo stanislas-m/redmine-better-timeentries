@@ -1,0 +1,20 @@
+.responsive-table {
+	overflow-x: auto;
+}
+
+table th.project-title {
+	min-width: 200px;
+}
+
+table th.day {
+	min-width: 25px;
+}
+
+table th.total, table td.total  {
+	border-right: solid 2px #555;
+	border-left: solid 2px #555;
+}
+
+table td.non-imputable {
+	background: #888;
+}
