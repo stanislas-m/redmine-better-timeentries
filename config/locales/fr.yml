@@ -1,0 +1,11 @@
+# French strings go here for Rails i18n
+fr:
+  imputations_title: "Imputations"
+  user: "Utilisateur"
+  month: "Mois"
+  year: "Année"
+  show_non_imputed: "Montrer les projets non-imputés"
+  working_hours_per_week: "Heures travaillées par semaine"
+  project: "Projet"
+  total: "Total"
+  no_result: "Aucun résultat"
