@@ -1,5 +1,9 @@
 <% html_title "Imputations" %>
 
+<% content_for :header_tags do %>
+    <%= stylesheet_link_tag "plugin.css", :plugin => "better_timeentries", :media => "screen" %>
+<% end %>
+
 <h2>Imputations</h2>
 
 <h3><%= @user.firstname %> <%= @user.lastname %></h3>
@@ -62,61 +66,63 @@
     </p>
 <% end %>
 
-<table class="list">
-    <thead>
-        <tr>
-            <th>Project</th>
-            <th style="border-right: solid 2px #555; border-left: solid 2px #555;">Total</th>
-            <% for day in 1..@days_in_month %>
-            <th><%= day %></th>
-            <% end %>
-        </tr>
-    </thead>
-    <tfoot>
-        <tr>
-            <th>Total</th>
-            <th style="border-right: solid 2px #555; border-left: solid 2px #555;"><%= @global_sum %></th>
-            <% for day in 1..@days_in_month %>
-                <th<% if @day_entries[day].presence and @day_entries[day] == 1 %> style="background: #628D20; color: #fff;"<% end %>>
-                    <%= @day_entries[day].presence || 0 %>  
-                </th>
-            <% end %>
-        </tr>
-    </tfoot>
-    <tbody>
-        <% if @projects.size > 0 and (@projects_entries.size > 0 or @show_non_imputed)  %>
-            <% @projects.each do |project| %>
-                <% if @projects_entries[project.id].presence or @show_non_imputed %>
-                    <tr>
-                        <td style="text-align: left;">
-                            <%= link_to_project(project, {}) %>  
-                        </td>
-                        <td style="border-right: solid 2px #555; border-left: solid 2px #555;">
-                            <%= @projects_entries[project.id].presence || 0 %>
-                        </td>
-                        <% for day in 1..@days_in_month %>
-                            <% t_date = Time.new(@now.year, @now.month, day) %>
-                            <% if t_date.saturday? or t_date.sunday? %>
-                                <td style="background: #888;">
-                                    &nbsp;
-                                </td>
-                            <% else %>
-                                <td>
-                                    <abbr title="<%= @time_entries_full[[day, project.id]].presence || 0 %> hours">
-                                        <%= @time_entries[[day, project.id]].presence || 0 %>
-                                    </abbr>        
-                                </td>
-                            <% end %>
-                        <% end %>
-                    </tr>
-                <% end %>
-            <% end %>
-        <% else %>
+<div class="responsive-table">
+    <table class="list">
+        <thead>
             <tr>
-                <td colspan="<%= @days_in_month + 2 %>">
-                    No result
-                </td>
+                <th class="project-title">Project</th>
+                <th class="total">Total</th>
+                <% for day in 1..@days_in_month %>
+                <th class="day"><%= day %></th>
+                <% end %>
             </tr>
-        <% end %>
-    </tbody>
-</table>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Total</th>
+                <th class="total"><%= @global_sum %></th>
+                <% for day in 1..@days_in_month %>
+                    <th<% if @day_entries[day].presence and @day_entries[day] == 1 %> style="background: #628D20; color: #fff;"<% end %>>
+                        <%= @day_entries[day].presence || 0 %>  
+                    </th>
+                <% end %>
+            </tr>
+        </tfoot>
+        <tbody>
+            <% if @projects.size > 0 and (@projects_entries.size > 0 or @show_non_imputed)  %>
+                <% @projects.each do |project| %>
+                    <% if @projects_entries[project.id].presence or @show_non_imputed %>
+                        <tr>
+                            <td style="text-align: left;">
+                                <%= link_to_project(project, {}) %>  
+                            </td>
+                            <td class="total">
+                                <%= @projects_entries[project.id].presence || 0 %>
+                            </td>
+                            <% for day in 1..@days_in_month %>
+                                <% t_date = Time.new(@now.year, @now.month, day) %>
+                                <% if t_date.saturday? or t_date.sunday? %>
+                                    <td class="non-imputable">
+                                        &nbsp;
+                                    </td>
+                                <% else %>
+                                    <td>
+                                        <abbr title="<%= @time_entries_full[[day, project.id]].presence || 0 %> hours">
+                                            <%= @time_entries[[day, project.id]].presence || 0 %>
+                                        </abbr>        
+                                    </td>
+                                <% end %>
+                            <% end %>
+                        </tr>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <tr>
+                    <td colspan="<%= @days_in_month + 2 %>">
+                        No result
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+</div>
