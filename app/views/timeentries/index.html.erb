@@ -4,7 +4,7 @@
     <%= stylesheet_link_tag "plugin.css", :plugin => "better_timeentries", :media => "screen" %>
 <% end %>
 
-<h2>Imputations</h2>
+<h2><%=t :imputations_title %></h2>
 
 <h3><%= @user.firstname %> <%= @user.lastname %></h3>
 
@@ -16,7 +16,7 @@
         <div>
             <table>
               <tr>
-                <td class="field">User</td>
+                <td class="field"><%=t :user %></td>
                 <td>
                     <select name="user">
                         <% @users.each do |u| %>
@@ -26,7 +26,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="field">Month</td>
+                <td class="field"><%=t :month %></td>
                 <td>
                     <select name="month">
                         <% (1..12).each do |m| %>
@@ -36,7 +36,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="field">Year</td>
+                <td class="field"><%=t :year %></td>
                 <td>
                     <select name="year">
                         <% (@now.year - 10..@now.year).each do |y| %>
@@ -46,13 +46,13 @@
                 </td>
               </tr>
               <tr>
-                <td class="field">Show non-imputed projects</td>
+                <td class="field"><%=t :show_non_imputed %></td>
                 <td>
                     <input type="checkbox" name="show_non_imputed"<%if @show_non_imputed %> checked<% end %> />
                 </td>
               </tr>
               <tr>
-                <td class="field">Working hours per week</td>
+                <td class="field"><%=t :working_hours_per_week %></td>
                 <td>
                     <input type="input" name="workingHoursPerWeek" value="<%= @working_hours_per_week %>" size="4" />
                 </td>
@@ -70,8 +70,8 @@
     <table class="list">
         <thead>
             <tr>
-                <th class="project-title">Project</th>
-                <th class="total">Total</th>
+                <th class="project-title"><%=t :project %></th>
+                <th class="total"><%=t :total %></th>
                 <% for day in 1..@days_in_month %>
                 <th class="day"><%= day %></th>
                 <% end %>
@@ -79,7 +79,7 @@
         </thead>
         <tfoot>
             <tr>
-                <th>Total</th>
+                <th><%=t :total %></th>
                 <th class="total"><%= @global_sum %></th>
                 <% for day in 1..@days_in_month %>
                     <th<% if @day_entries[day].presence and @day_entries[day] == 1 %> style="background: #628D20; color: #fff;"<% end %>>
@@ -119,7 +119,7 @@
             <% else %>
                 <tr>
                     <td colspan="<%= @days_in_month + 2 %>">
-                        No result
+                        <%=t :no_result %>
                     </td>
                 </tr>
             <% end %>
