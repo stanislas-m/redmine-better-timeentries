@@ -30,7 +30,7 @@
                 <td>
                     <select name="month">
                         <% (1..12).each do |m| %>
-                            <option value="<%= m %>"<% if @now.month == m %> selected<% end %>><%= Date::MONTHNAMES[m] %></option>
+                            <option value="<%= m %>"<% if @now.month == m %> selected<% end %>><%= t('date.month_names')[m] %></option>
                         <% end %>
                     </select>
                 </td>
