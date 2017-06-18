@@ -1,3 +1,11 @@
 # English strings go here for Rails i18n
 en:
-  # my_label: "My label"
+  imputations_title: "Imputations"
+  user: "User"
+  month: "Month"
+  year: "Year"
+  show_non_imputed: "Show non-imputed projects"
+  working_hours_per_week: "Working hours per week"
+  project: "Project"
+  total: "Total"
+  no_result: "No result"
