@@ -1,0 +1,11 @@
+# Simplified Chiniese  strings go here for Rails i18n
+zh:
+  imputations_title: "工时记录"
+  user: "用户"
+  month: "月份"
+  year: "年度"
+  show_non_imputed: "显示没有工作记录的项目"
+  working_hours_per_week: "每周工作时间"
+  project: "项目"
+  total: "总计"
+  no_result: "当前无记录。"
